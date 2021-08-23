@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
 from re import compile, sub
 from os import getcwd, listdir
+### parallel --verbose --joblog jolog.txt --jobs 4 --colsep "\t" "mv {1} {2}" :::: old_and_updated_file_names.tsv
+
 
 
 if __name__ == '__main__':
