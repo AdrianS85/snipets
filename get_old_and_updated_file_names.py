@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from re import compile, sub
 from os import getcwd, listdir
-### python get_old_and_updated_file_names.py --reFileSearch ".*txt" --reReplace "ass" --toReplace "butt"
+### python get_old_and_updated_file_names.py --reFileSearch ".*\.txt" --reReplace "\.ass" --toReplace "\.butt"
 ### parallel --verbose --joblog jolog.txt --jobs 4 --colsep "\t" "mv {1} {2}" :::: old_and_updated_file_names.tsv
 
 
