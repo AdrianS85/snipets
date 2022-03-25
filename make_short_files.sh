@@ -1,4 +1,4 @@
-# -f : format. Are files gziped. f for fastq, g for fastq.gz
+# -f : format. Are files gziped. f for fastq, g for fastq.gz ###!!! NOT fq! something to update if needed further
 # -p : should files be gziped after shortening
 # -d : directory in which files are present. If left alone - current folder
 # -o : output directory
