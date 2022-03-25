@@ -32,6 +32,7 @@ tempdir=$(echo "${inputdir}/make_short_files_script_temp")
 
 if [[ ! -e $tempdir ]]; then
 	mkdir $tempdir
+	mkdir ${tempdir}/pre_ass
 fi
 
 number=$((number*4))
