@@ -6,6 +6,7 @@
 # -s : separator used in reference file either t for tab or c for comma
 # -n : how many netries do You want
 # bash test.sh -r old_and_updated_file_names.tsv
+### dobra, jak daje wiecej opcji niż -r to się wszystko wywala, nie wiem o co chodzi, jak kiedyś coś to mogę naprawić.
 
 format=g
 inputdir=$(pwd)
@@ -32,10 +33,6 @@ tempdir=$(echo "${inputdir}/make_short_files_script_temp")
 
 if [[ ! -e $tempdir ]]; then
 	mkdir $tempdir
-	mkdir ${tempdir}/pre_ass
-	mkdir ${tempdir}/ass
-	mkdir ${tempdir}/ass2
-	mkdir ${tempdir}/ass3
 fi
 
 number=$((number*4))
