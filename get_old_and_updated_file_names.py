@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from re import compile, sub
 from os import getcwd, listdir
-### sudo python get_old_and_updated_file_names.py --reFileSearch ".*1\.fastq\.gz" --reReplace "1\.fastq\.gz" --toReplace "R1.fq.gz"
+### sudo python get_old_and_updated_file_names.py --reFileSearch ".*1\.fastq\.gz" --reReplace "\.1\.fastq\.gz" --toReplace "_R1.fq.gz"
 ### parallel --verbose --joblog jolog.txt --jobs 4 --colsep "\t" "mv {1} {2}" :::: old_and_updated_file_names.tsv
 
 
