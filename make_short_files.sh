@@ -1,31 +1,47 @@
-# -f : format. Are files gziped. f for fastq, g for fastq.gz ###!!! NOT fq! something to update if needed further
-# -p : should files be gziped after shortening
+# -b : basal name of fastq files. This means all that is common for all fastq files that we want to shorten ### !!! should change default from none to not present and check this in an if
+# -f : format. fastq or fq. default fq
+# -g : Are files gziped. default = true
 # -d : directory in which files are present. If left alone - current folder
 # -o : output directory
-# -r : reference file in format - 2 columns, first column with original names, second with changed name. output of get_old_and_updated_file_names.py
-# -s : separator used in reference file either t for tab or c for comma
 # -n : how many netries do You want
 # bash test.sh -r old_and_updated_file_names.tsv
 ### dobra, jak daje wiecej opcji niż -r to się wszystko wywala, nie wiem o co chodzi, jak kiedyś coś to mogę naprawić.
+# bash make_short_files.sh -b RNA_S5227Nr -f fq -g true -n 100000
 
-format=g
+
+
+
+basalname=none
+format=fq
 inputdir=$(pwd)
 outputdir=$(pwd)
-sep=t
 number=100000
 
-while getopts f:pr:d:o:s: flag
+
+
+while getopts b:f:gd:o:n: flag
 do
 	case "${flag}" in
+		b) basalname=$OPTARG;;
 		f) format=$OPTARG;;
-		p) tobezipped=false;;
-		r) reference=$OPTARG;;
+		g) gziped=true;;
 		d) inputdir=$OPTARG;;
 		o) outputdir=$OPTARG;;
-		s) sep==$OPTARG;;
 		n) number=$OPTARG;;
 	esac
 done
+
+
+
+if [[ ${basalname} == none ]]; then
+        echo 'Missing -b' >&2
+        exit 1
+fi
+
+if [[ ${format} != fq ]] && [[ ${format} != fastq ]]; then
+        echo '-f needs to equal fq or fastq' >&2
+        exit 1
+fi
 
 
 
@@ -39,37 +55,22 @@ number=$((number*4))
 
 
 
-cp ${reference} ${tempdir}/pre_ass
-awk '{print $2}' ${tempdir}/pre_ass > ${tempdir}/ass
-cp ${tempdir}/ass ${tempdir}/ass2
-sed -i s/.fastq.gz/.fastq/g ${tempdir}/ass
-sed -i s/.fastq.gz/_small.fastq/g ${tempdir}/ass2
-paste ${tempdir}/ass ${tempdir}/ass2 > ${tempdir}/ass3
+ls -d *${basalname}* | tee ${tempdir}/files_to_shorten &&
+cp ${tempdir}/files_to_shorten ${tempdir}/files_to_shorten_unpacked &&
+sed -i s/.gz$//g ${tempdir}/files_to_shorten_unpacked &&
+cp ${tempdir}/files_to_shorten_unpacked ${tempdir}/output_names &&
+sed -i s/"$basalname"/short_"$basalname"/g ${tempdir}/output_names &&
+paste ${tempdir}/files_to_shorten ${tempdir}/files_to_shorten_unpacked ${tempdir}/output_names > ${tempdir}/all_names
 
 
 
-
-if [ ${format} = g ]
+if [ ${gziped} == true ]
 then
-	filestodo=$(ls $(echo "${inputdir}/*.fastq.gz"))
-
-	if [ ${sep} = t ]; then
-		parallel --colsep '\t' "cp {1} ${tempdir}/{2}; gzip -d ${tempdir}/{2}" :::: $reference
-	elif [ ${sep} = c ]; then
-		parallel "cp {1} ${tempdir}/{2}; gzip -d ${tempdir}/{2}" :::: $reference
-	fi
+	parallel --colsep '\t' "cp {1} ${tempdir}/{1} && gzip -d ${tempdir}/{1} && head -n ${number} ${tempdir}/{2} > ${outputdir}/{3} && rm ${tempdir}/{2} && gzip ${outputdir}/{3} " :::: ${tempdir}/all_names
 	
-	parallel --colsep '\t' "head -n ${number} ${tempdir}/{1} > ${outputdir}/{2}" :::: ${tempdir}/ass3
-	
-elif [ ${format} = f ]
+elif [ ${gziped} == false ]
 then
-	filestodo=$(ls $(echo "${inputdir}/*.fastq"))
-
-	if [ ${sep} = t ]; then
-		echo "Not implemented, bub"
-	elif [ ${sep} = c ]; then
-		echo "Not implemented, bub"
-	fi
+	parallel --colsep '\t' "cp {1} ${tempdir}/{1} && head -n ${number} ${tempdir}/{1} > ${outputdir}/{3} && rm ${tempdir}/{1} && gzip ${outputdir}/{3} " :::: ${tempdir}/all_names
 fi
 
 rm -R ${tempdir}
