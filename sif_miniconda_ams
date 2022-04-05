@@ -1,8 +1,8 @@
 ### USING THE CONTAINER
-	#SANDBOX: sudo singularity build -s miniconda_ams_sand.sif miniconda_ams
+	#SANDBOX: sudo singularity build -s miniconda_ams_sand.sif sif_miniconda_ams
 	#ENTER: sudo singularity shell --cleanenv --writable-tmpfs miniconda_ams_sand.sif
 
-	#BUILD: sudo singularity build miniconda_ams.sif miniconda_ams
+	#BUILD: sudo singularity build miniconda_ams.sif sif_miniconda_ams
 	#CREATE WORKING DIRECTORY: in the same folder as .sif file named data
 	#ENTER: sudo singularity shell --bind data:/tmp --cleanenv --writable-tmpfs miniconda_ams.sif
 
