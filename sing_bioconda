@@ -1,0 +1,6 @@
+### USING THE CONTAINER
+	#BUILD: sudo singularity build bioconda.sif docker://bioconda/extended-base-image
+	#ENTER: sudo singularity shell --bind data:/tmp --cleanenv --writable-tmpfs sing_bioconda.sif
+
+
+
