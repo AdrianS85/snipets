@@ -1,7 +1,0 @@
-### USING THE CONTAINER
-	#BUILD: sudo singularity build miniconda3.sif docker://conda/miniconda3
-	#CREATE WORKING DIRECTORY: in the same folder as .sif file named data
-	#ENTER: sudo singularity shell --bind data:/tmp --cleanenv --writable-tmpfs miniconda3.sif
-
-
-
