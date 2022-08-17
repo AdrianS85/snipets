@@ -1,5 +1,5 @@
-# -s : bash-compatible expression for selecting files to change name of # SRR*
-# -f : change string from this (regex)
+# -s : bash-compatible expression for selecting files to change name of # SRR* 
+# -f : change string from this (regex) BEWARE! This changes only first regex found, its not global!
 # -t : to this
 # -d : directory in which files are present. If left alone - current folder # not implemented
 # -o : output directory # not implemented
