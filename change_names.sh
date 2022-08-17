@@ -3,7 +3,7 @@
 # -t : to this
 # -d : directory in which files are present. If left alone - current folder # not implemented
 # -o : output directory # not implemented
-# bash make_short_files.sh -b RNA_S5227Nr -f fq -g true -n 100000
+# sudo bash change_names.sh -s "short*" -f "_" -t "_R"
 
 
 
