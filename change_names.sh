@@ -7,12 +7,12 @@
 
 
 
-while getopts b:f:gd:o:n: flag
+while getopts s:f:t: flag
 do
 	case "${flag}" in
 		s) selector=$OPTARG;;
 		f) from=$OPTARG;;
-		t) to=true;;
+		t) to=$OPTARG;;
 	esac
 done
 
